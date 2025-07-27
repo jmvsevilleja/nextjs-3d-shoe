@@ -195,7 +195,7 @@ export function ShoeViewer({ selectedVariant }: ShoeViewerProps) {
               gltf.parser.json.extensions.KHR_materials_variants.variants,
             materials: gltf.parser.associations
               ? Array.from(gltf.parser.associations.keys()).filter(
-                  (key) => key.isMaterial
+                  (key) => key.name
                 )
               : [],
           };
