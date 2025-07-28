@@ -21,6 +21,7 @@ import {
   RotateCcw,
 } from "lucide-react";
 import { ShoeViewer } from "@/components/ShoeViewer";
+import Image from "next/image";
 
 interface MaterialVariant {
   name: string;
@@ -54,6 +55,18 @@ const sizes = [
   "12",
 ];
 
+const variantImageMap: { [key: string]: string } = {
+  midnight: "/midnight.png",
+  beach: "/beach.png",
+  street: "/street.png",
+};
+
+const variantBgMap: { [key: string]: string } = {
+  midnight: "bg-blue-500",
+  beach: "bg-pink-400",
+  street: "bg-black",
+};
+
 export default function ProductPage() {
   const [selectedVariant, setSelectedVariant] = useState<MaterialVariant>(
     materialVariants[0]
@@ -83,7 +96,7 @@ export default function ProductPage() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center justify-between h-16">
             <div className="flex items-center">
-              <h1 className="text-2xl font-bold text-gray-900">SHOE</h1>
+              <h1 className="text-2xl font-bold text-gray-900">SHOE SHOP</h1>
             </div>
             <div className="flex items-center space-x-4">
               <Button variant="ghost" size="icon">
@@ -102,7 +115,7 @@ export default function ProductPage() {
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
           {/* 3D Viewer */}
           <div className="space-y-4">
-            <Card className="aspect-square">
+            <Card>
               <CardContent className="p-0">
                 <ShoeViewer selectedVariant={selectedVariant.name} />
               </CardContent>
@@ -121,7 +134,18 @@ export default function ProductPage() {
                   onClick={() => setSelectedVariant(variant)}
                 >
                   <CardContent className="p-2">
-                    <div className="w-full h-full rounded-md border-2 border-gray-200 bg-gradient-to-br from-gray-300 to-gray-500" />
+                    <div
+                      className={`w-full h-full rounded-md border-2 border-gray-200 ${
+                        variantBgMap[variant.name]
+                      }`}
+                    >
+                      <Image
+                        src={variantImageMap[variant.name]}
+                        alt={variant.name}
+                        width={150}
+                        height={150}
+                      />
+                    </div>
                   </CardContent>
                 </Card>
               ))}
@@ -172,18 +196,15 @@ export default function ProductPage() {
               <h3 className="text-lg font-semibold mb-3">
                 Color: {selectedVariant.displayName}
               </h3>
-              <div className="grid grid-cols-3 gap-3">
+              <div className="flex gap-5">
                 {materialVariants.map((variant) => (
                   <button
                     key={variant.name}
                     onClick={() => setSelectedVariant(variant)}
                     className={`relative h-16 w-16 rounded-lg border-2 transition-all hover:scale-105 ${
-                      selectedVariant.name === variant.name
-                        ? "border-blue-500 ring-2 ring-blue-200"
-                        : "border-gray-300 hover:border-gray-400"
+                      variantBgMap[variant.name]
                     }`}
                   >
-                    <div className="absolute inset-1 rounded-md bg-gradient-to-br from-gray-300 to-gray-600" />
                     <span className="absolute -bottom-6 left-1/2 transform -translate-x-1/2 text-xs font-medium">
                       {variant.displayName.split(" ")[0]}
                     </span>
